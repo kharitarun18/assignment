@@ -1,5 +1,4 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom'
-import { getStoredUser, clearAuth } from '../services/storage'
 
 function getInitials(name) {
   return name ? name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?'
@@ -7,11 +6,12 @@ function getInitials(name) {
 
 export default function Layout() {
   const navigate = useNavigate()
-  const user = getStoredUser()
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
   const isMember = user.role === 'member'
 
   function logout() {
-    clearAuth()
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
     navigate('/login')
   }
 

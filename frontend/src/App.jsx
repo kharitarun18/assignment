@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { getStoredUser } from './services/storage'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
@@ -22,7 +21,7 @@ function GuestRoute({ children }) {
 function MemberRoute({ children }) {
   const token = localStorage.getItem('token')
   if (!token) return <Navigate to="/login" replace />
-  const user = getStoredUser()
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
   return user.role === 'member' || user.role === 'admin' ? children : <Navigate to="/dashboard" replace />
 }
 

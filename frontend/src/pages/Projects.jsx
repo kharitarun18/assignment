@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../services/api'
-import { getStoredUser } from '../services/storage'
 
 function ProjectModal({ onClose, onSave, initial }) {
   const [form, setForm] = useState({ name: initial?.name || '', description: initial?.description || '', member_ids: initial?.members?.map(m => m.id) || [] })
@@ -82,7 +81,7 @@ export default function Projects() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(null)
-  const user = getStoredUser()
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
   const navigate = useNavigate()
   const isAdmin = user.role === 'admin'
 

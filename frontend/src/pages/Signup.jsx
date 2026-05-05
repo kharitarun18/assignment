@@ -6,7 +6,6 @@ export default function Signup() {
   const [form, setForm] = useState({ name: '', email: '', password: '', role: 'member' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
   const navigate = useNavigate()
 
   function handleChange(e) {
@@ -26,9 +25,10 @@ export default function Signup() {
     }
     setLoading(true)
     try {
-      await api.post('/api/signup', form)
-      setSuccess(true)
-      setTimeout(() => navigate('/login'), 1500)
+      const res = await api.post('/api/signup', form)
+      localStorage.setItem('token', res.data.access_token)
+      localStorage.setItem('user', JSON.stringify(res.data.user))
+      navigate('/dashboard')
     } catch (err) {
       setError(err.response?.data?.detail || 'Signup failed. Please try again.')
     } finally {
@@ -47,7 +47,6 @@ export default function Signup() {
         <p className="auth-subtitle">Set up your workspace in seconds</p>
 
         {error && <div className="alert alert-error">{error}</div>}
-        {success && <div className="alert alert-success">Account created! Redirecting to login...</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
