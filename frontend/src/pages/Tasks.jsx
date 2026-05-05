@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import api from '../services/api'
+import { getStoredUser } from '../services/storage'
 
 function formatDate(d) {
   if (!d) return '—'
@@ -105,7 +106,7 @@ export default function Tasks() {
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(null)
   const [filters, setFilters] = useState({ status: '', assignee_id: '', project_id: '' })
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const user = getStoredUser()
   const isAdmin = user.role === 'admin'
 
   async function load() {

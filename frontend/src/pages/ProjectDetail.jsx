@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import api from '../services/api'
+import { getStoredUser } from '../services/storage'
 
 function formatDate(d) {
   if (!d) return '—'
@@ -99,7 +100,7 @@ export default function ProjectDetail() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [modal, setModal] = useState(null)
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const user = getStoredUser()
   const isAdmin = user.role === 'admin'
 
   async function load() {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../services/api'
+import { getStoredUser } from '../services/storage'
 
 function getGreeting() {
   const h = new Date().getHours()
@@ -48,7 +49,7 @@ export default function Dashboard() {
   const [tasks, setTasks] = useState([])
   const [submissions, setSubmissions] = useState([])
   const [loading, setLoading] = useState(true)
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const user = getStoredUser()
   const navigate = useNavigate()
   const isMember = user.role === 'member'
 
